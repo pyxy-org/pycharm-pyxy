@@ -13,5 +13,9 @@
             language="Pyxy"
             implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"
     />
+<!--    <lang.syntaxHighlighterFactory-->
+<!--            language="Pyxy"-->
+<!--            implementationClass="org.pyxy.pyxycharm.lang.highlighter.PyxySyntaxHighlighterFactory"-->
+<!--    />-->
   </extensions>
 </idea-plugin>

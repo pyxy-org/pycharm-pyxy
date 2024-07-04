@@ -4,7 +4,11 @@ import com.jetbrains.python.psi.PyElementType
 import org.pyxy.pyxycharm.lang.psi.PyxyMarkupExpression
 
 object PyxyElementTypes {
-    val MARKUP_EXPRESSION = PyElementType("PYXY_MARKUP_EXPRESSION") {
+    val TAG = PyElementType("TAG") {
+        PyxyMarkupExpression(it)
+    }
+
+    val TAG_NAME = PyElementType("TAG_NAME") {
         PyxyMarkupExpression(it)
     }
 }
