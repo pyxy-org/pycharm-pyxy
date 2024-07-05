@@ -4,7 +4,7 @@ import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.TokenType
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
-import org.pyxy.pyxycharm.lang.psi.elementTypes.PyxyElementTypes
+import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
 
 class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(context) {
     override fun getParsingContext() = myContext as PyxyParserContext
