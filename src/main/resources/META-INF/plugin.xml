@@ -11,11 +11,16 @@
     <fileTypeFactory implementation="org.pyxy.pyxycharm.PyxyFileTypeFactory"/>
     <lang.parserDefinition
             language="Pyxy"
-            implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"
-    />
-<!--    <lang.syntaxHighlighterFactory-->
-<!--            language="Pyxy"-->
-<!--            implementationClass="org.pyxy.pyxycharm.lang.highlighter.PyxySyntaxHighlighterFactory"-->
-<!--    />-->
+            implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"/>
+
+    <indexedRootsProvider implementation="org.pyxy.pyxycharm.lang.builtins.PyxyBuiltins"/>
+    <completion.contributor language="Python"
+                            implementationClass="org.pyxy.pyxycharm.lang.builtins.PyxyCompletionContributor"/>
+  </extensions>
+
+
+  <extensions defaultExtensionNs="Pythonid">
+  <pyReferenceResolveProvider
+          implementation="org.pyxy.pyxycharm.lang.builtins.PyxyReferenceResolveProvider"/>
   </extensions>
 </idea-plugin>

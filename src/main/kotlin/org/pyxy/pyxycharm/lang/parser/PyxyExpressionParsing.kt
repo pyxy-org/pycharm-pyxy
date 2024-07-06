@@ -1,7 +1,8 @@
 package org.pyxy.pyxycharm.lang.parser
 
 import com.intellij.lang.SyntaxTreeBuilder
-import com.intellij.psi.TokenType
+import com.intellij.psi.tree.TokenSet
+import com.jetbrains.python.PyElementTypes
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
 import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
@@ -59,48 +60,75 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
 
         // '/' xml_tag_content '>'
         nextToken()
-        parseTagContents()
+        parseTagContents(true)
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
         tag.done(PyxyElementTypes.TAG)
     }
 
-    // xml_tag_content: ( xml_name xml_name* '=' (STRING | fstring_expr) |
-    //                    xml_name xml_name* )+
-    private fun parseTagContents() {
+    private fun parseTagContents(isClosing: Boolean = false) {
         if (!atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
             myBuilder.error("Expected tag name")
         }
 
-        var atTagName = true
         val tagNameMarker = myBuilder.mark()
-
         while (!myBuilder.eof() && atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
-            nextToken()
-            if (atTagName && myBuilder.rawLookup(1) == TokenType.WHITE_SPACE) {
-                atTagName = false
-                tagNameMarker.done(PyxyElementTypes.TAG_NAME)
+            if (PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))) {
+                nextToken()
+                break
             }
+            nextToken()
+        }
+        tagNameMarker.done(PyxyElementTypes.TAG_NAME)
+
+        if (isClosing) return
+
+        val argListMarker = myBuilder.mark()
+
+        while (!myBuilder.eof() && !atAnyOfTokens(TokenSet.create(PyTokenTypes.DIV, PyTokenTypes.GT))) {
+            val attr = myBuilder.mark()
+            val attrName = myBuilder.mark()
+            var emptyName = true
+            while (!myBuilder.eof() && atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
+                if (PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))) {
+                    if (!emptyName) attrName.done(PyxyElementTypes.TAG_NAME)
+                    break
+                }
+                nextToken()
+                emptyName = false
+            }
+
+            if (emptyName) {
+                attrName.drop()
+                attr.drop()
+                argListMarker.drop()
+                myBuilder.error("Attribute name expected")
+                while (!myBuilder.eof() && !atAnyOfTokens(TokenSet.create(PyTokenTypes.DIV, PyTokenTypes.GT))) {
+                    nextToken()
+                }
+                return
+            } else {
+                attrName.done(PyxyElementTypes.ATTR_NAME)
+            }
+
             if (atToken(PyTokenTypes.EQ)) {
                 nextToken()
                 if (atAnyOfTokens(PyTokenTypes.STRING_NODES)) {
                     // name="..."
-                    nextToken()
-                    continue
                 } else if (atToken(PyTokenTypes.LBRACE)) {
-                    tagNameMarker.done(PyxyElementTypes.TAG_NAME)
+                    argListMarker.done(PyxyElementTypes.ARG_LIST)
                     myBuilder.error("TODO: curly braces not yet supported")
                     return
+                } else {
+                    argListMarker.done(PyxyElementTypes.ARG_LIST)
+                    myBuilder.error("Expected string or curly braces")
+                    return
                 }
-                tagNameMarker.done(PyxyElementTypes.TAG_NAME)
-                myBuilder.error("Expected string or curly braces")
-                return
+                nextToken()
             }
+            attr.done(PyElementTypes.KEYWORD_ARGUMENT_EXPRESSION)
         }
 
-        if (atTagName) {
-            tagNameMarker.done(PyxyElementTypes.TAG_NAME)
-        }
+        argListMarker.done(PyxyElementTypes.ARG_LIST)
     }
-
 }
