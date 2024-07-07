@@ -9,9 +9,10 @@ class PyxyStatementParsing(context: PyxyParserContext) : StatementParsing(contex
     override fun parseSimpleStatement(checkLanguageLevel: Boolean) {
         // xml: '<' xml_opened
         if (atToken(PyTokenTypes.LT)) {
+            val tagExpression = myBuilder.mark()
             val tag = myBuilder.mark()
             nextToken()
-            parsingContext.expressionParser.parseTagOpen(tag)
+            parsingContext.expressionParser.parseTagOpen(tag, tagExpression)
             return
         }
 

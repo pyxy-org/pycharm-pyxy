@@ -13,8 +13,6 @@
     <lang.parserDefinition
             language="Python (pyxy)"
             implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"/>
-    <lang.syntaxHighlighterFactory language="Python (pyxy)"
-                                   implementationClass="org.pyxy.pyxycharm.lang.highlighter.PyxyHighlighterFactory"/>
 
     <indexedRootsProvider implementation="org.pyxy.pyxycharm.lang.builtins.PyxyBuiltins"/>
     <completion.contributor language="Python"
@@ -23,6 +21,7 @@
 
 
   <extensions defaultExtensionNs="Pythonid">
+    <pyAnnotator implementation="org.pyxy.pyxycharm.lang.highlighter.PyxyAnnotatingVisitor"/>
     <pyReferenceResolveProvider
             implementation="org.pyxy.pyxycharm.lang.builtins.PyxyReferenceResolveProvider"/>
     <dialectsTokenSetContributor
