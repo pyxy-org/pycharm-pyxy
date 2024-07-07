@@ -1,2 +1,2 @@
-print("test", end="123")
-<div attribute="value">data</div>
+div(content="hello", end="123")
+<div content="hello" end="123" />

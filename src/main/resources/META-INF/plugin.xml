@@ -20,7 +20,9 @@
 
 
   <extensions defaultExtensionNs="Pythonid">
-  <pyReferenceResolveProvider
-          implementation="org.pyxy.pyxycharm.lang.builtins.PyxyReferenceResolveProvider"/>
+    <pyReferenceResolveProvider
+            implementation="org.pyxy.pyxycharm.lang.builtins.PyxyReferenceResolveProvider"/>
+    <dialectsTokenSetContributor
+            implementation="org.pyxy.pyxycharm.lang.PyxyDialectTokenContributor" />
   </extensions>
 </idea-plugin>

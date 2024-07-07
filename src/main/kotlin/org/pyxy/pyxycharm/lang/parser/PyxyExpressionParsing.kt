@@ -2,6 +2,7 @@ package org.pyxy.pyxycharm.lang.parser
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.TokenSet
+import com.jetbrains.python.PyElementTypes
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
 import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
@@ -34,7 +35,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
         checkMatches(PyTokenTypes.GT, "Expected tag close")
 
         if (!hasBody) {
-            tag.done(PyxyElementTypes.TAG)
+            tag.done(PyxyElementTypes.TAG_EXPRESSION)
             return
         }
 
@@ -62,7 +63,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
         parseTagContents(true)
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-        tag.done(PyxyElementTypes.TAG)
+        tag.done(PyxyElementTypes.TAG_EXPRESSION)
     }
 
     private fun parseTagContents(isClosing: Boolean = false) {
@@ -107,27 +108,18 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
                 }
                 return
             } else {
-                attrName.done(PyxyElementTypes.KEYWORD_ARGUMENT_NAME)
+                attrName.done(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_NAME)
             }
 
             if (atToken(PyTokenTypes.EQ)) {
                 nextToken()
-                if (atAnyOfTokens(PyTokenTypes.STRING_NODES)) {
-                    // name="..."
-                } else if (atToken(PyTokenTypes.LBRACE)) {
-                    argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
-                    myBuilder.error("TODO: curly braces not yet supported")
-                    return
-                } else {
-                    argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
-                    myBuilder.error("Expected string or curly braces")
-                    return
+                if (!parseStringLiteralExpression()) {
+                    myBuilder.error("Expected string literal")
                 }
-                nextToken()
             }
-            attr.done(PyxyElementTypes.KEYWORD_ARGUMENT)
+            attr.done(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_EXPRESSION)
         }
 
-        argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
+        argListMarker.done(PyElementTypes.ARGUMENT_LIST)
     }
 }

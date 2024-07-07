@@ -5,6 +5,6 @@ import com.jetbrains.python.psi.impl.PyKeywordArgumentImpl
 
 class PyxyKeywordArgument(node: ASTNode): PyKeywordArgumentImpl(node) {
     override fun getKeywordNode(): ASTNode? {
-        return node.findChildByType(PyxyElementTypes.KEYWORD_ARGUMENT_NAME)
+        return node.findChildByType(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_NAME)
     }
 }
