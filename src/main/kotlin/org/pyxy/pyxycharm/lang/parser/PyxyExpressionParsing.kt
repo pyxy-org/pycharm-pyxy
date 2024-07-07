@@ -45,11 +45,13 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
         var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
         while (!myBuilder.eof()) {
             // Get XML CDATA
-            val cdata: SyntaxTreeBuilder.Marker = myBuilder.mark()
-            while (!myBuilder.eof() && !atToken(PyTokenTypes.LT)) {
-                nextToken()
+            if (!atToken(PyTokenTypes.LT)) {
+                val cdata: SyntaxTreeBuilder.Marker = myBuilder.mark()
+                while (!myBuilder.eof() && !atToken(PyTokenTypes.LT)) {
+                    nextToken()
+                }
+                cdata.done(PyxyElementTypes.TAG_CDATA)
             }
-            cdata.done(PyxyElementTypes.TAG_CDATA)
 
             if (myBuilder.lookAhead(1) != PyTokenTypes.DIV) {
                 subtagExpression = myBuilder.mark()
@@ -63,6 +65,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
             // Otherwise, parse the new tag being opened
             parseTagOpen(subOrClosingTag, subtagExpression!!)
             subtagExpression = null
+            subOrClosingTag = null
         }
 
         // '/' xml_tag_content '>'
@@ -70,7 +73,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
         parseTagContents(true)
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-        subOrClosingTag!!.done(PyxyElementTypes.TAG)
+        subOrClosingTag?.done(PyxyElementTypes.TAG)
         tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
     }
 
