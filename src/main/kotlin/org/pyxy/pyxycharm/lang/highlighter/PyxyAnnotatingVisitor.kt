@@ -1,5 +1,6 @@
 package org.pyxy.pyxycharm.lang.highlighter
 
+import com.intellij.codeInspection.InspectionsBundle
 import com.intellij.lang.annotation.HighlightSeverity
 import com.jetbrains.python.validation.PyAnnotator
 import org.pyxy.pyxycharm.lang.psi.element.*
@@ -27,6 +28,6 @@ class PyxyAnnotatingVisitor : PyAnnotator() {
 
     fun visitPyxyCData(node: PyxyTagCData) {
         super.visitPyElement(node)
-        addHighlightingAnnotation(node, PyxyHighlighterColors.PYXY_ATTRIBUTE_VALUE, HighlightSeverity.TEXT_ATTRIBUTES)
+        addHighlightingAnnotation(node, PyxyHighlighterColors.PYXY_TAG_CDATA, HighlightSeverity.TEXT_ATTRIBUTES)
     }
 }
