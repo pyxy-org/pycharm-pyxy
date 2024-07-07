@@ -1,4 +1,4 @@
 import htpy
 
-def div() -> htpy.Element:
+def div(**kwargs) -> htpy.Element:
     ...
