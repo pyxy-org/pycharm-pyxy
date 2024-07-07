@@ -1,2 +1,1 @@
-div(content="hello", end="123")
-<div content="hello" end="123" />
+<div id="test-div">Testing</div>

@@ -8,9 +8,10 @@
   <depends>com.intellij.modules.python</depends>
 
   <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="org.pyxy.pyxycharm.PyxyFileTypeFactory"/>
+    <fileType name="Python (pyxy)" extensions="pyxy" language="Python (pyxy)"
+              implementationClass="org.pyxy.pyxycharm.PyxyFileType" fieldName="INSTANCE"/>
     <lang.parserDefinition
-            language="Pyxy"
+            language="Python (pyxy)"
             implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"/>
 
     <indexedRootsProvider implementation="org.pyxy.pyxycharm.lang.builtins.PyxyBuiltins"/>

@@ -7,7 +7,7 @@ import org.pyxy.pyxycharm.lang.PyxyLanguageDialect
 import javax.swing.Icon
 
 class PyxyFile(viewProvider: FileViewProvider): PyFileImpl(viewProvider, PyxyLanguageDialect) {
-    override fun getIcon(flags: Int): Icon = PyxyFileType.icon
+    override fun getIcon(flags: Int): Icon = PyxyFileType.INSTANCE.icon
     override fun toString() = "PyxyFile: $name"
     override fun getStub() = null
 }
