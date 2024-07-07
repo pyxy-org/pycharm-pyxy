@@ -1,1 +1,2 @@
+print("test", end="123")
 <div attribute="value">data</div>

@@ -5,10 +5,10 @@ import com.jetbrains.python.psi.PyArgumentList
 import com.jetbrains.python.psi.PyExpression
 import com.jetbrains.python.psi.impl.PyCallExpressionImpl
 
-class PyxyTag(node: ASTNode): PyCallExpressionImpl(node) {
+class PyxyTagCall(node: ASTNode): PyCallExpressionImpl(node) {
     override fun getCallee(): PyExpression? { return findChildByType(PyxyElementTypes.TAG_NAME) }
 
-    override fun getArgumentList(): PyArgumentList? { return findChildByType(PyxyElementTypes.ARG_LIST) }
+    override fun getArgumentList(): PyArgumentList? { return findChildByType(PyxyElementTypes.ARGUMENT_LIST) }
 
     override fun toString(): String {
         val callee = callee

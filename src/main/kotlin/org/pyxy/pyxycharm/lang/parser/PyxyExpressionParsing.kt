@@ -2,7 +2,6 @@ package org.pyxy.pyxycharm.lang.parser
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.TokenSet
-import com.jetbrains.python.PyElementTypes
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
 import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
@@ -108,7 +107,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
                 }
                 return
             } else {
-                attrName.done(PyxyElementTypes.ATTR_NAME)
+                attrName.done(PyxyElementTypes.KEYWORD_ARGUMENT_NAME)
             }
 
             if (atToken(PyTokenTypes.EQ)) {
@@ -116,19 +115,19 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
                 if (atAnyOfTokens(PyTokenTypes.STRING_NODES)) {
                     // name="..."
                 } else if (atToken(PyTokenTypes.LBRACE)) {
-                    argListMarker.done(PyxyElementTypes.ARG_LIST)
+                    argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
                     myBuilder.error("TODO: curly braces not yet supported")
                     return
                 } else {
-                    argListMarker.done(PyxyElementTypes.ARG_LIST)
+                    argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
                     myBuilder.error("Expected string or curly braces")
                     return
                 }
                 nextToken()
             }
-            attr.done(PyElementTypes.KEYWORD_ARGUMENT_EXPRESSION)
+            attr.done(PyxyElementTypes.KEYWORD_ARGUMENT)
         }
 
-        argListMarker.done(PyxyElementTypes.ARG_LIST)
+        argListMarker.done(PyxyElementTypes.ARGUMENT_LIST)
     }
 }
