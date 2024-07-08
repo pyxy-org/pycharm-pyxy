@@ -131,8 +131,14 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
 
             if (atToken(PyTokenTypes.EQ)) {
                 nextToken()
-                if (!parseStringLiteralExpression()) {
-                    myBuilder.error("Expected string literal")
+                if (parseStringLiteralExpression()) {
+                    // Success
+                } else if (atToken(PyTokenTypes.LBRACE)) {
+                    nextToken()
+                    parseExpression()
+                    checkMatches(PyTokenTypes.RBRACE, "Expected closing brace")
+                } else {
+                    myBuilder.error("Expected string literal or {expression}")
                 }
             }
             attr.done(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_EXPRESSION)
