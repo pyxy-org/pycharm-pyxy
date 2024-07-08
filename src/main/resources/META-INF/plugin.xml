@@ -17,8 +17,9 @@
     <indexedRootsProvider implementation="org.pyxy.pyxycharm.builtins.PyxyBuiltins"/>
     <completion.contributor language="Python"
                             implementationClass="org.pyxy.pyxycharm.builtins.PyxyCompletionContributor"/>
-  </extensions>
 
+    <vfs.asyncListener implementation="org.pyxy.pyxycharm.PyxyFileListener"/>
+  </extensions>
 
   <extensions defaultExtensionNs="Pythonid">
     <pyAnnotator implementation="org.pyxy.pyxycharm.highlighter.PyxyAnnotatingVisitor"/>
