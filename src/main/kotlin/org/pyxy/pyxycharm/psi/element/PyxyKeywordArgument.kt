@@ -3,7 +3,7 @@ package org.pyxy.pyxycharm.lang.psi.element
 import com.intellij.lang.ASTNode
 import com.jetbrains.python.psi.PyElementVisitor
 import com.jetbrains.python.psi.impl.PyKeywordArgumentImpl
-import org.pyxy.pyxycharm.lang.highlighter.PyxyAnnotatingVisitor
+import org.pyxy.pyxycharm.highlighter.PyxyAnnotatingVisitor
 
 class PyxyKeywordArgument(node: ASTNode): PyKeywordArgumentImpl(node) {
     override fun getKeywordNode(): ASTNode? {

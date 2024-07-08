@@ -12,19 +12,19 @@
               implementationClass="org.pyxy.pyxycharm.PyxyFileType" fieldName="INSTANCE"/>
     <lang.parserDefinition
             language="Python (pyxy)"
-            implementationClass="org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition"/>
+            implementationClass="org.pyxy.pyxycharm.parser.PyxyParserDefinition"/>
 
-    <indexedRootsProvider implementation="org.pyxy.pyxycharm.lang.builtins.PyxyBuiltins"/>
+    <indexedRootsProvider implementation="org.pyxy.pyxycharm.builtins.PyxyBuiltins"/>
     <completion.contributor language="Python"
-                            implementationClass="org.pyxy.pyxycharm.lang.builtins.PyxyCompletionContributor"/>
+                            implementationClass="org.pyxy.pyxycharm.builtins.PyxyCompletionContributor"/>
   </extensions>
 
 
   <extensions defaultExtensionNs="Pythonid">
-    <pyAnnotator implementation="org.pyxy.pyxycharm.lang.highlighter.PyxyAnnotatingVisitor"/>
+    <pyAnnotator implementation="org.pyxy.pyxycharm.highlighter.PyxyAnnotatingVisitor"/>
     <pyReferenceResolveProvider
-            implementation="org.pyxy.pyxycharm.lang.builtins.PyxyReferenceResolveProvider"/>
+            implementation="org.pyxy.pyxycharm.builtins.PyxyReferenceResolveProvider"/>
     <dialectsTokenSetContributor
-            implementation="org.pyxy.pyxycharm.lang.PyxyDialectTokenContributor" />
+            implementation="org.pyxy.pyxycharm.PyxyDialectTokenContributor" />
   </extensions>
 </idea-plugin>

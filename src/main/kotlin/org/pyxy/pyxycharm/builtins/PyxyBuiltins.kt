@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.builtins
+package org.pyxy.pyxycharm.builtins
 
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile

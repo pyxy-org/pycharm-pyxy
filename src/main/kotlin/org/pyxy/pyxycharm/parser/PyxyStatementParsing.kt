@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.parser
+package org.pyxy.pyxycharm.parser
 
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.StatementParsing

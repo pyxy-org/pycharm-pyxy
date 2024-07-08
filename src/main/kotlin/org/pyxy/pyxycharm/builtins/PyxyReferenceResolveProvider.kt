@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.builtins
+package org.pyxy.pyxycharm.builtins
 
 import com.intellij.psi.PsiManager
 import com.jetbrains.python.psi.PyFile
@@ -6,7 +6,7 @@ import com.jetbrains.python.psi.PyQualifiedExpression
 import com.jetbrains.python.psi.resolve.PyReferenceResolveProvider
 import com.jetbrains.python.psi.resolve.RatedResolveResult
 import com.jetbrains.python.psi.types.TypeEvalContext
-import org.pyxy.pyxycharm.lang.PyxyLanguageDialect
+import org.pyxy.pyxycharm.PyxyLanguageDialect
 
 class PyxyReferenceResolveProvider : PyReferenceResolveProvider {
     override fun resolveName(expression: PyQualifiedExpression, context: TypeEvalContext): List<RatedResolveResult> {

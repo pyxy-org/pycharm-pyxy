@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.highlighter
+package org.pyxy.pyxycharm.highlighter
 
 import com.intellij.openapi.editor.XmlHighlighterColors
 import com.intellij.openapi.editor.colors.EditorColorsManager

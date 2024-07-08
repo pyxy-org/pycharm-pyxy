@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang
+package org.pyxy.pyxycharm
 
 import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PythonDialectsTokenSetContributor

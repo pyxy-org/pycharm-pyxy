@@ -7,7 +7,7 @@ import com.jetbrains.python.*;
 import com.jetbrains.python.psi.PyPsiFacade;
 import com.jetbrains.python.psi.impl.PyPsiFacadeImpl;
 import com.jetbrains.python.psi.impl.PythonASTFactory;
-import org.pyxy.pyxycharm.lang.parser.PyxyParserDefinition;
+import org.pyxy.pyxycharm.parser.PyxyParserDefinition;
 
 public class PyxyParsingTest extends ParsingTestCase {
     public PyxyParsingTest() {

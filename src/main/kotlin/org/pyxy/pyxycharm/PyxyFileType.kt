@@ -1,7 +1,6 @@
 package org.pyxy.pyxycharm
 
 import com.jetbrains.python.PythonFileType
-import org.pyxy.pyxycharm.lang.PyxyLanguageDialect
 
 class PyxyFileType private constructor() : PythonFileType(PyxyLanguageDialect) {
     companion object {

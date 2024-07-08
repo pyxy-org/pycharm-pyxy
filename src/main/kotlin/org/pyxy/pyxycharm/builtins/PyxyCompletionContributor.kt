@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.builtins
+package org.pyxy.pyxycharm.builtins
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -7,7 +7,7 @@ import com.intellij.psi.PsiManager
 import com.intellij.util.ProcessingContext
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.psi.PyFile
-import org.pyxy.pyxycharm.lang.PyxyLanguageDialect
+import org.pyxy.pyxycharm.PyxyLanguageDialect
 
 class PyxyCompletionContributor : CompletionContributor() {
     init {

@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.parser
+package org.pyxy.pyxycharm.parser
 
 import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PyTokenTypes

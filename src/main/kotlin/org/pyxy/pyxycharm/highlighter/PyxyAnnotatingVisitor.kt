@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.highlighter
+package org.pyxy.pyxycharm.highlighter
 
 import com.intellij.codeInspection.InspectionsBundle
 import com.intellij.lang.annotation.HighlightSeverity

@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.parser
+package org.pyxy.pyxycharm.parser
 
 import com.intellij.lang.SyntaxTreeBuilder
 import com.jetbrains.python.parsing.ParsingContext
