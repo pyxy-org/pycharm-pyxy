@@ -7,7 +7,7 @@ import com.jetbrains.python.PythonParserDefinition
 import org.pyxy.pyxycharm.PyxyLanguageDialect
 import org.pyxy.pyxycharm.psi.PyxyFile
 
-class PyxyParserDefinition: PythonParserDefinition() {
+class PyxyParserDefinition : PythonParserDefinition() {
     override fun createParser(project: Project): PsiParser = PyxyParser()
 
     override fun getFileNodeType() = PyxyLanguageDialect.fileElementType

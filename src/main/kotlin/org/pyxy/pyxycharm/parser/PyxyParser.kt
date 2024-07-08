@@ -7,7 +7,6 @@ import com.jetbrains.python.psi.LanguageLevel
 
 class PyxyParser : PyParser() {
     override fun createParsingContext(
-        builder: SyntaxTreeBuilder?,
-        languageLevel: LanguageLevel?
+        builder: SyntaxTreeBuilder?, languageLevel: LanguageLevel?
     ): ParsingContext = PyxyParserContext(builder!!, languageLevel!!)
 }

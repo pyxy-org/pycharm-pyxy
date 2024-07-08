@@ -11,16 +11,21 @@ import org.pyxy.pyxycharm.PyxyLanguageDialect
 
 class PyxyCompletionContributor : CompletionContributor() {
     init {
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement().withElementType(PyTokenTypes.IDENTIFIER),
+        extend(CompletionType.BASIC,
+            PlatformPatterns.psiElement().withElementType(PyTokenTypes.IDENTIFIER),
             object : CompletionProvider<CompletionParameters>() {
-                override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
                     val element = parameters.position
                     if (element.containingFile.language !is PyxyLanguageDialect) {
                         return
                     }
                     val psiManager = PsiManager.getInstance(element.project)
                     listOfNotNull(
-                        psiManager.findFile(PyxyBuiltins.PYXY_BUILTINS) as? PyFile,
+                        psiManager.findFile(PYXY_BUILTINS) as? PyFile,
                     ).forEach { file ->
                         file.topLevelClasses.forEach {
                             result.addElement(LookupElementBuilder.create(it))

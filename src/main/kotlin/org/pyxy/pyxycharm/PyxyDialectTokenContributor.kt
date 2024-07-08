@@ -2,7 +2,7 @@ package org.pyxy.pyxycharm
 
 import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PythonDialectsTokenSetContributor
-import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
+import org.pyxy.pyxycharm.psi.element.PyxyElementTypes
 
 class PyxyDialectTokenContributor : PythonDialectsTokenSetContributor {
     override fun getStatementTokens(): TokenSet {

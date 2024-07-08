@@ -39,19 +39,17 @@ class PyxyFileListener : AsyncFileListener {
 
     fun compileWithPyxy(psiFile: PsiFile) {
         val pythonSdk = PythonSdkUtil.findPythonSdk(psiFile) ?: return
-        val commandLine = GeneralCommandLine()
-            .withExePath(pythonSdk.homePath!!)
-            .withParameters("-m", "pyxy", psiFile.virtualFile.path)
-            .withWorkDirectory(psiFile.project.basePath)
+        val commandLine = GeneralCommandLine().withExePath(pythonSdk.homePath!!)
+            .withParameters("-m", "pyxy", psiFile.virtualFile.path).withWorkDirectory(psiFile.project.basePath)
         ApplicationManager.getApplication().executeOnPooledThread {
             try {
                 val output = execAndGetOutput(commandLine)
 //                Logger.getInstance(PyxyFileListener::class.java).warn("stdout: " + output.stdout)
 //                Logger.getInstance(PyxyFileListener::class.java).warn("stderr: " + output.stderr)
 //                Logger.getInstance(PyxyFileListener::class.java).warn("exitcode: " + output.exitCode)
-                VfsUtil.markDirtyAndRefresh(true, false, true, psiFile.virtualFile.parent);
+                VfsUtil.markDirtyAndRefresh(true, false, true, psiFile.virtualFile.parent)
             } catch (e: Exception) {
-                Logger.getInstance(PyxyFileListener::class.java).error("Error running module foo", e);
+                Logger.getInstance(PyxyFileListener::class.java).error("Error running module foo", e)
             }
         }
     }

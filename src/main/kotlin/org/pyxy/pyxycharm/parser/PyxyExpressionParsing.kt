@@ -5,9 +5,9 @@ import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PyElementTypes
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
-import org.pyxy.pyxycharm.lang.psi.element.PyxyElementTypes
+import org.pyxy.pyxycharm.psi.element.PyxyElementTypes
 
-class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(context) {
+class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(context) {
     override fun getParsingContext() = myContext as PyxyParserContext
 
     override fun parsePrimaryExpression(isTargetExpression: Boolean): Boolean {
@@ -25,7 +25,7 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
     }
 
     fun parseTagOpen(tag: SyntaxTreeBuilder.Marker, tagExpression: SyntaxTreeBuilder.Marker) {
-        parseTagContents()
+        parseTagContents(false)
 
         var hasBody = true
         if (atToken(PyTokenTypes.DIV)) {

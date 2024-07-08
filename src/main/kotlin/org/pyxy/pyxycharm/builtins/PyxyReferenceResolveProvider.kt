@@ -14,7 +14,7 @@ class PyxyReferenceResolveProvider : PyReferenceResolveProvider {
             return emptyList()
         }
         val builtinsFile = PsiManager.getInstance(expression.project).findFile(
-            PyxyBuiltins.PYXY_BUILTINS
+            PYXY_BUILTINS
         ) as? PyFile ?: return emptyList()
         return listOfNotNull(
             builtinsFile.findExportedName(expression.name)?.let {

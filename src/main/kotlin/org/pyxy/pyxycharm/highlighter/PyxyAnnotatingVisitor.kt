@@ -1,9 +1,8 @@
 package org.pyxy.pyxycharm.highlighter
 
-import com.intellij.codeInspection.InspectionsBundle
 import com.intellij.lang.annotation.HighlightSeverity
 import com.jetbrains.python.validation.PyAnnotator
-import org.pyxy.pyxycharm.lang.psi.element.*
+import org.pyxy.pyxycharm.psi.element.*
 
 class PyxyAnnotatingVisitor : PyAnnotator() {
     fun visitPyxyTag(node: PyxyTag) {

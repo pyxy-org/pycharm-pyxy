@@ -6,9 +6,8 @@ import com.jetbrains.python.parsing.ParsingContext
 import com.jetbrains.python.psi.LanguageLevel
 
 class PyxyParserContext(
-    builder: SyntaxTreeBuilder,
-    languageLevel: LanguageLevel
-): ParsingContext(builder, languageLevel) {
+    builder: SyntaxTreeBuilder, languageLevel: LanguageLevel
+) : ParsingContext(builder, languageLevel) {
     init {
         require(builder is PsiBuilderImpl) {
             "Parser must be PsiBuilderImpl in order for Pyxy parser to work properly"

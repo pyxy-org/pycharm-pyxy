@@ -1,4 +1,4 @@
-package org.pyxy.pyxycharm.lang.psi.element
+package org.pyxy.pyxycharm.psi.element
 
 import com.intellij.lang.ASTNode
 import com.jetbrains.python.PyElementTypes
@@ -6,7 +6,7 @@ import com.jetbrains.python.psi.PyArgumentList
 import com.jetbrains.python.psi.PyExpression
 import com.jetbrains.python.psi.impl.PyCallExpressionImpl
 
-class PyxyTagExpression(node: ASTNode): PyCallExpressionImpl(node) {
+class PyxyTagExpression(node: ASTNode) : PyCallExpressionImpl(node) {
     override fun getCallee(): PyExpression? {
         val childTags: List<PyxyTag> = findChildrenByType(PyxyElementTypes.TAG)
         val openingTag = childTags.first()
