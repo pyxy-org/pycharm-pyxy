@@ -45,12 +45,19 @@ class PyxyExpressionParsing(context: PyxyParserContext): ExpressionParsing(conte
         var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
         while (!myBuilder.eof()) {
             // Get XML CDATA
-            if (!atToken(PyTokenTypes.LT)) {
+            if (!atToken(PyTokenTypes.LT) && !atToken(PyTokenTypes.LBRACE)) {
                 val cdata: SyntaxTreeBuilder.Marker = myBuilder.mark()
-                while (!myBuilder.eof() && !atToken(PyTokenTypes.LT)) {
+                while (!myBuilder.eof() && !atToken(PyTokenTypes.LT) && !atToken(PyTokenTypes.LBRACE)) {
                     nextToken()
                 }
                 cdata.done(PyxyElementTypes.TAG_CDATA)
+            }
+
+            if (atToken(PyTokenTypes.LBRACE)) {
+                nextToken()
+                parseExpression()
+                checkMatches(PyTokenTypes.RBRACE, "Expected closing brace")
+                continue
             }
 
             if (myBuilder.lookAhead(1) != PyTokenTypes.DIV) {
