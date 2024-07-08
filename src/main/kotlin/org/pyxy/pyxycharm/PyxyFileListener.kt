@@ -44,9 +44,9 @@ class PyxyFileListener : AsyncFileListener {
         ApplicationManager.getApplication().executeOnPooledThread {
             try {
                 val output = execAndGetOutput(commandLine)
-//                Logger.getInstance(PyxyFileListener::class.java).warn("stdout: " + output.stdout)
-//                Logger.getInstance(PyxyFileListener::class.java).warn("stderr: " + output.stderr)
-//                Logger.getInstance(PyxyFileListener::class.java).warn("exitcode: " + output.exitCode)
+//                println("stdout: " + output.stdout)
+//                println("stderr: " + output.stderr)
+//                println("exitcode: " + output.exitCode)
                 VfsUtil.markDirtyAndRefresh(true, false, true, psiFile.virtualFile.parent)
             } catch (e: Exception) {
                 Logger.getInstance(PyxyFileListener::class.java).error("Error running module foo", e)
