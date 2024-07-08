@@ -14,4 +14,8 @@ class PyxyKeywordArgument(node: ASTNode): PyKeywordArgumentImpl(node) {
         is PyxyAnnotatingVisitor -> pyVisitor.visitPyxyAttribute(this)
         else -> super.acceptPyVisitor(pyVisitor)
     }
+
+    override fun toString(): String {
+        return "${this::class.simpleName}: ${this.text}"
+    }
 }

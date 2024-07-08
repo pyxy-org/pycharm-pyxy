@@ -10,4 +10,8 @@ class PyxyKeywordArgumentName(node: ASTNode) : PyStringLiteralExpressionImpl(nod
         is PyxyAnnotatingVisitor -> pyVisitor.visitPyxyAttributeName(this)
         else -> super.acceptPyVisitor(pyVisitor)
     }
+
+    override fun toString(): String {
+        return "${this::class.simpleName}: ${this.text}"
+    }
 }

@@ -12,6 +12,6 @@ class PyxyTagName(node: ASTNode): PyReferenceExpressionImpl(node) {
     }
 
     override fun toString(): String {
-        return "PyxyTagObjectRef: $referencedName"
+        return "${this::class.simpleName}: $referencedName"
     }
 }

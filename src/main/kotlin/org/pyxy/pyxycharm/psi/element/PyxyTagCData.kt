@@ -12,6 +12,6 @@ class PyxyTagCData(node: ASTNode): PyElementImpl(node) {
     }
 
     override fun toString(): String {
-        return "PyxyTagCData"
+        return "${this::class.simpleName}: length=${this.text.length}"
     }
 }

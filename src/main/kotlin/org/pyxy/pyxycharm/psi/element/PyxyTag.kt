@@ -10,4 +10,8 @@ class PyxyTag(node: ASTNode): PyElementImpl(node) {
         is PyxyAnnotatingVisitor -> pyVisitor.visitPyxyTag(this)
         else -> super.acceptPyVisitor(pyVisitor)
     }
+
+    override fun toString(): String {
+        return "${this::class.simpleName}: ${this.text}"
+    }
 }
