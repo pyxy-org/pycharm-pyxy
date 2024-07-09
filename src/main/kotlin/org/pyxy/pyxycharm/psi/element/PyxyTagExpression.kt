@@ -8,17 +8,11 @@ import com.jetbrains.python.psi.impl.PyCallExpressionImpl
 
 class PyxyTagExpression(node: ASTNode) : PyCallExpressionImpl(node) {
     override fun getCallee(): PyExpression? {
-        val childTags: List<PyxyTag> = findChildrenByType(PyxyElementTypes.TAG)
-        val openingTag = childTags.first()
-        val tagName = openingTag.node.findChildByType(PyxyElementTypes.TAG_NAME) ?: return null
-        return tagName.psi as PyxyTagName
+        return findChildByType(PyElementTypes.REFERENCE_EXPRESSION)
     }
 
     override fun getArgumentList(): PyArgumentList? {
-        val childTags: List<PyxyTag> = findChildrenByType(PyxyElementTypes.TAG)
-        val openingTag = childTags.first()
-        val argumentList = openingTag.node.findChildByType(PyElementTypes.ARGUMENT_LIST) ?: return null
-        return argumentList.psi as PyArgumentList
+        return findChildByType(PyElementTypes.ARGUMENT_LIST)
     }
 
     override fun toString(): String {

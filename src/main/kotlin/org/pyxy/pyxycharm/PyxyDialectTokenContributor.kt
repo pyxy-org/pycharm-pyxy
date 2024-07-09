@@ -19,6 +19,7 @@ class PyxyDialectTokenContributor : PythonDialectsTokenSetContributor {
 
     override fun getParameterTokens(): TokenSet {
         return TokenSet.EMPTY
+//        return TokenSet.create(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_EXPRESSION)
     }
 
     override fun getFunctionDeclarationTokens(): TokenSet {
@@ -30,6 +31,6 @@ class PyxyDialectTokenContributor : PythonDialectsTokenSetContributor {
     }
 
     override fun getReferenceExpressionTokens(): TokenSet {
-        return TokenSet.EMPTY
+        return TokenSet.create(PyxyElementTypes.TAG_NAME)
     }
 }

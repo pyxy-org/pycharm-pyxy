@@ -3,6 +3,7 @@ package org.pyxy.pyxycharm.parser
 import com.intellij.lang.SyntaxTreeBuilder
 import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PyElementTypes
+import com.jetbrains.python.PyParsingBundle
 import com.jetbrains.python.PyTokenTypes
 import com.jetbrains.python.parsing.ExpressionParsing
 import org.pyxy.pyxycharm.psi.element.PyxyElementTypes
@@ -15,16 +16,16 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
 
         if (atToken(PyTokenTypes.LT)) {
             val tagExpression = myBuilder.mark()
-            val tag = myBuilder.mark()
+//            val tag = myBuilder.mark()
             nextToken()
-            parseTagOpen(tag, tagExpression)
+            parseTagOpen(tagExpression)
             return true
         }
 
         return super.parsePrimaryExpression(isTargetExpression)
     }
 
-    fun parseTagOpen(tag: SyntaxTreeBuilder.Marker, tagExpression: SyntaxTreeBuilder.Marker) {
+    fun parseTagOpen(tagExpression: SyntaxTreeBuilder.Marker) {
         parseTagContents(false)
 
         var hasBody = true
@@ -34,7 +35,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         }
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-        tag.done(PyxyElementTypes.TAG)
+//        tag.done(PyxyElementTypes.TAG)
 
         if (!hasBody) {
             tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
@@ -42,7 +43,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         }
 
         var subtagExpression: SyntaxTreeBuilder.Marker? = null
-        var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
+//        var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
         while (!myBuilder.eof()) {
             // Get XML CDATA
             if (!atToken(PyTokenTypes.LT) && !atToken(PyTokenTypes.LBRACE)) {
@@ -63,16 +64,16 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             if (myBuilder.lookAhead(1) != PyTokenTypes.DIV) {
                 subtagExpression = myBuilder.mark()
             }
-            subOrClosingTag = myBuilder.mark()
+//            subOrClosingTag = myBuilder.mark()
             nextToken()
 
             // If it's a tag close, then break
             if (atToken(PyTokenTypes.DIV)) break
 
             // Otherwise, parse the new tag being opened
-            parseTagOpen(subOrClosingTag, subtagExpression!!)
+            parseTagOpen(subtagExpression!!)
             subtagExpression = null
-            subOrClosingTag = null
+//            subOrClosingTag = null
         }
 
         // '/' xml_tag_content '>'
@@ -80,7 +81,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         parseTagContents(true)
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-        subOrClosingTag?.done(PyxyElementTypes.TAG)
+//        subOrClosingTag?.done(PyxyElementTypes.TAG)
         tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
     }
 
@@ -89,15 +90,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             myBuilder.error("Expected tag name")
         }
 
-        val tagNameMarker = myBuilder.mark()
-        while (!myBuilder.eof() && atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
-            if (PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))) {
-                nextToken()
-                break
-            }
-            nextToken()
-        }
-        tagNameMarker.done(PyxyElementTypes.TAG_NAME)
+        parseTagName()
 
         if (isClosing) return
 
@@ -109,7 +102,6 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             var emptyName = true
             while (!myBuilder.eof() && atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
                 if (PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))) {
-                    if (!emptyName) attrName.done(PyxyElementTypes.TAG_NAME)
                     break
                 }
                 nextToken()
@@ -145,5 +137,20 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         }
 
         argListMarker.done(PyElementTypes.ARGUMENT_LIST)
+    }
+
+    private fun parseTagName(): Boolean {
+        if (atToken(PyTokenTypes.IDENTIFIER)) {
+            var refExpr = myBuilder.mark()
+            nextToken()
+            refExpr.done(PyElementTypes.REFERENCE_EXPRESSION)
+            while (matchToken(PyTokenTypes.DOT)) {
+                refExpr = refExpr.precede()
+                checkMatches(PyTokenTypes.IDENTIFIER, PyParsingBundle.message("PARSE.expected.name"))
+                refExpr.done(PyElementTypes.REFERENCE_EXPRESSION)
+            }
+            return true
+        }
+        return false
     }
 }
