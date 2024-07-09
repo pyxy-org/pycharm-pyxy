@@ -5,10 +5,10 @@ import com.jetbrains.python.validation.PyAnnotator
 import org.pyxy.pyxycharm.psi.element.*
 
 class PyxyAnnotatingVisitor : PyAnnotator() {
-//    fun visitPyxyTag(node: PyxyTag) {
-//        super.visitPyElement(node)
-//        addHighlightingAnnotation(node, PyxyHighlighterColors.PYXY_TAG, HighlightSeverity.TEXT_ATTRIBUTES)
-//    }
+    fun visitPyxyTag(node: PyxyTag) {
+        super.visitPyElement(node)
+        addHighlightingAnnotation(node, PyxyHighlighterColors.PYXY_TAG, HighlightSeverity.TEXT_ATTRIBUTES)
+    }
 
     fun visitPyxyTagName(node: PyxyTagName) {
         super.visitPyReferenceExpression(node)

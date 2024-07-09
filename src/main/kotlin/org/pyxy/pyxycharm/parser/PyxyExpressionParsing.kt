@@ -16,16 +16,16 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
 
         if (atToken(PyTokenTypes.LT)) {
             val tagExpression = myBuilder.mark()
-//            val tag = myBuilder.mark()
+            val tag = myBuilder.mark()
             nextToken()
-            parseTagOpen(tagExpression)
+            parseTagOpen(tag, tagExpression)
             return true
         }
 
         return super.parsePrimaryExpression(isTargetExpression)
     }
 
-    fun parseTagOpen(tagExpression: SyntaxTreeBuilder.Marker) {
+    fun parseTagOpen(tag: SyntaxTreeBuilder.Marker, tagExpression: SyntaxTreeBuilder.Marker) {
         parseTagContents(false)
 
         var hasBody = true
@@ -35,7 +35,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         }
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-//        tag.done(PyxyElementTypes.TAG)
+        tag.done(PyxyElementTypes.TAG)
 
         if (!hasBody) {
             tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
@@ -43,7 +43,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         }
 
         var subtagExpression: SyntaxTreeBuilder.Marker? = null
-//        var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
+        var subOrClosingTag: SyntaxTreeBuilder.Marker? = null
         while (!myBuilder.eof()) {
             // Get XML CDATA
             if (!atToken(PyTokenTypes.LT) && !atToken(PyTokenTypes.LBRACE)) {
@@ -64,16 +64,16 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             if (myBuilder.lookAhead(1) != PyTokenTypes.DIV) {
                 subtagExpression = myBuilder.mark()
             }
-//            subOrClosingTag = myBuilder.mark()
+            subOrClosingTag = myBuilder.mark()
             nextToken()
 
             // If it's a tag close, then break
             if (atToken(PyTokenTypes.DIV)) break
 
             // Otherwise, parse the new tag being opened
-            parseTagOpen(subtagExpression!!)
+            parseTagOpen(subOrClosingTag, subtagExpression!!)
             subtagExpression = null
-//            subOrClosingTag = null
+            subOrClosingTag = null
         }
 
         // '/' xml_tag_content '>'
@@ -81,7 +81,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         parseTagContents(true)
 
         checkMatches(PyTokenTypes.GT, "Expected tag close")
-//        subOrClosingTag?.done(PyxyElementTypes.TAG)
+        subOrClosingTag?.done(PyxyElementTypes.TAG)
         tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
     }
 

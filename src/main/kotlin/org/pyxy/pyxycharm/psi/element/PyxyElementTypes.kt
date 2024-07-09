@@ -6,6 +6,9 @@ object PyxyElementTypes {
     val TAG_EXPRESSION = PyElementType("TAG_EXPRESSION") {
         PyxyTagExpression(it)
     }
+    val TAG = PyElementType("TAG") {
+        PyxyTag(it)
+    }
     val TAG_NAME = PyElementType("TAG_NAME") {
         PyxyTagName(it)
     }
