@@ -16,8 +16,8 @@ class PyxyReferenceResolveProvider : PyReferenceResolveProvider {
         if (expression !is PyxyTagName) {
             return emptyList()
         }
-        println("resolveName with PyxyTagName: ${expression.text}")
-        println(expression.getReference().javaClass.name)
+//        println("resolveName with PyxyTagName: ${expression.text}")
+//        println(expression.getReference().javaClass.name)
 
         // Lookup htpy module
         val matchingModules = PyModuleNameIndex.findByShortName("htpy", expression.project, expression.resolveScope)

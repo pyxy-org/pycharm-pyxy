@@ -15,7 +15,6 @@
             implementationClass="org.pyxy.pyxycharm.parser.PyxyParserDefinition"/>
 
     <vfs.asyncListener implementation="org.pyxy.pyxycharm.PyxyFileListener"/>
-    <postStartupActivity implementation="org.pyxy.pyxycharm.MyPostStartupActivity" />
   </extensions>
 
   <extensions defaultExtensionNs="Pythonid">

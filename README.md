@@ -6,7 +6,6 @@ Pyxy support for PyCharm
 
 ## TODO
 
-* [ ] Fix where PyCharm erroneously says "remove redundant parenthesis" for braces
 * [ ] Fix bug on hyphenated tag names
 * [ ] Validate closing tag name
 * [ ] Highlight matching tag pairs

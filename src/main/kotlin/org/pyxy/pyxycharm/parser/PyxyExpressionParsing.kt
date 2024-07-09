@@ -42,7 +42,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
 
         if (!hasBody) {
             tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
-            parenExpression.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
+            parenExpression.done(PyxyElementTypes.PARENTHESIS_WRAPPER)
             return
         }
 
@@ -85,7 +85,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         checkMatches(PyTokenTypes.GT, "Expected tag close")
         subOrClosingTag?.done(PyxyElementTypes.TAG)
         tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
-        parenExpression.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
+        parenExpression.done(PyxyElementTypes.PARENTHESIS_WRAPPER)
     }
 
     private fun parseTagContents(isClosing: Boolean = false) {
@@ -161,7 +161,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         myBuilder.advanceLexer()
         if (myBuilder.tokenType === PyTokenTypes.RBRACE) {
             myBuilder.advanceLexer()
-            expr.done(PyElementTypes.TUPLE_EXPRESSION)
+            expr.error("Empty brace expression")
         } else {
             parseYieldOrTupleExpression(false)
             if (atForOrAsyncFor()) {
@@ -179,7 +179,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
                     err.drop()
                 }
                 checkMatches(PyTokenTypes.RBRACE, PyParsingBundle.message("PARSE.expected.rbrace"))
-                expr.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
+                expr.done(PyxyElementTypes.PARENTHESIS_WRAPPER)
             }
         }
     }

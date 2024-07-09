@@ -21,4 +21,7 @@ object PyxyElementTypes {
     val TAG_CDATA = PyElementType("TAG_CDATA") {
         PyxyTagCData(it)
     }
+    val PARENTHESIS_WRAPPER = PyElementType("PARENTHESIS_WRAPPER") {
+        PyxyParenthesisWrapperExpression(it)
+    }
 }
