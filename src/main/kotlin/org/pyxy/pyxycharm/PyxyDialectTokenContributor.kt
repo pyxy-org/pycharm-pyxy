@@ -10,7 +10,7 @@ class PyxyDialectTokenContributor : PythonDialectsTokenSetContributor {
     }
 
     override fun getExpressionTokens(): TokenSet {
-        return TokenSet.create(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_EXPRESSION)
+        return TokenSet.create(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_EXPRESSION, PyxyElementTypes.TAG_NAME)
     }
 
     override fun getKeywordTokens(): TokenSet {

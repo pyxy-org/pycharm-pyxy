@@ -18,9 +18,9 @@ import org.pyxy.pyxycharm.highlighter.PyxyAnnotatingVisitor
 class PyxyTagName(node: ASTNode) : PyReferenceExpressionImpl(node) {
     override fun getReference(context: PyResolveContext): PsiPolyVariantReference {
         val superRef = super.getReference(context)
-//        if (superRef.resolve() == null) {
-//
-//        }
+        if (superRef.resolve() == null) {
+            // TODO: If there are no . in the expression, resolve as a member of htpy
+        }
         return superRef
     }
 

@@ -143,11 +143,11 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         if (atToken(PyTokenTypes.IDENTIFIER)) {
             var refExpr = myBuilder.mark()
             nextToken()
-            refExpr.done(PyElementTypes.REFERENCE_EXPRESSION)
+            refExpr.done(PyxyElementTypes.TAG_NAME)
             while (matchToken(PyTokenTypes.DOT)) {
                 refExpr = refExpr.precede()
                 checkMatches(PyTokenTypes.IDENTIFIER, PyParsingBundle.message("PARSE.expected.name"))
-                refExpr.done(PyElementTypes.REFERENCE_EXPRESSION)
+                refExpr.done(PyxyElementTypes.TAG_NAME)
             }
             return true
         }
