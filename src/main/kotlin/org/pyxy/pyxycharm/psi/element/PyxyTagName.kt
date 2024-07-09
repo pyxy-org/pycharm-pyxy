@@ -2,7 +2,6 @@ package org.pyxy.pyxycharm.psi.element
 
 import com.intellij.lang.ASTNode
 import com.jetbrains.python.psi.PyElementVisitor
-import com.jetbrains.python.psi.PyExpression
 import com.jetbrains.python.psi.impl.PyReferenceExpressionImpl
 import org.pyxy.pyxycharm.highlighter.PyxyAnnotatingVisitor
 

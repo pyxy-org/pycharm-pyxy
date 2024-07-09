@@ -33,6 +33,7 @@ class PyxyKeywordArgument(node: ASTNode) : PyKeywordArgumentImpl(node) {
         return findChildrenByType(braceTokens)
     }
 
+    @Suppress("UnstableApiUsage")
     override fun getKeywordNode(): ASTNode? {
         return node.findChildByType(PyxyElementTypes.TAG_KEYWORD_ARGUMENT_NAME)
     }

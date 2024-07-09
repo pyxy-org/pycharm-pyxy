@@ -2,7 +2,6 @@ package org.pyxy.pyxycharm.psi.element
 
 import com.intellij.lang.ASTNode
 import com.jetbrains.python.PyElementTypes
-import com.jetbrains.python.ast.findChildByType
 import com.jetbrains.python.psi.PyArgumentList
 import com.jetbrains.python.psi.PyExpression
 import com.jetbrains.python.psi.impl.PyCallExpressionImpl

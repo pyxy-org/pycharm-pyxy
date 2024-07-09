@@ -151,7 +151,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         return false
     }
 
-    private val TAG_NAME_JOINERS = TokenSet.create(PyTokenTypes.MINUS, PyTokenTypes.COLON)
+    private val tagNameJoiners = TokenSet.create(PyTokenTypes.MINUS, PyTokenTypes.COLON)
 
     private fun parseTagNamePart(marker: SyntaxTreeBuilder.Marker): Boolean {
         // If there's only one token that makes up the name...
@@ -162,7 +162,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         // In this path, there are multiple tokens that make up the name
         if (!checkTagNameIdentifier(marker)) return false
 
-        while (TAG_NAME_JOINERS.contains(myBuilder.tokenType)) {
+        while (tagNameJoiners.contains(myBuilder.tokenType)) {
             if (whitespaceBeforeNextToken()) {
                 // Can't end on a joiner
                 marker.error("Incomplete tag name")
