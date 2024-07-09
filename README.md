@@ -1,7 +1,8 @@
 # PyxyCharm
 
 <!-- Plugin description -->
-Pyxy support for PyCharm
+PyCharm support for pyxy: HTML in Python.
+See https://github.com/pyxy-org/pyxy
 <!-- Plugin description end -->
 
 ## TODO

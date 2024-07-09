@@ -3,11 +3,5 @@
 
 # PyxyCharm Plugin Changelog
 
-## [0.2.0]
-...
-
-#### Changed:
-- ...
-
-### Fixed
-- ...
+## [0.1.0]
+Initial Release

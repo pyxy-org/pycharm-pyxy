@@ -1,8 +1,7 @@
 <idea-plugin>
   <id>org.pyxy.pyxycharm</id>
   <name>PyxyCharm</name>
-  <vendor email="trey@keown.io" url="https://keown.io">Trey Keown</vendor>
-  <description><![CDATA[ PyCharm support for pyxy: HTML in Python. ]]></description>
+  <vendor email="jetbrains@keown.io" url="https://keown.io">Trey Keown</vendor>
 
   <depends>com.intellij.modules.lang</depends>
   <depends>com.intellij.modules.python</depends>
