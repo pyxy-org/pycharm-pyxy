@@ -1,3 +1,1 @@
-import foo
-a = foo.bar.bat()
-<foo.bar.bat id="test">Testing</foo.bar.bat>
+[<img src={v} /> for v in [1, 2, 3]]

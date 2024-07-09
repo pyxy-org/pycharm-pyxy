@@ -1,6 +1,7 @@
 package org.pyxy.pyxycharm.parser
 
 import com.intellij.lang.SyntaxTreeBuilder
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.jetbrains.python.PyElementTypes
 import com.jetbrains.python.PyParsingBundle
@@ -26,6 +27,8 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
     }
 
     fun parseTagOpen(tag: SyntaxTreeBuilder.Marker, tagExpression: SyntaxTreeBuilder.Marker) {
+        // Not sure why, but this fixes some `<... /> for ... in ...` expressions
+        val parenExpression = tagExpression.precede()
         parseTagContents(false)
 
         var hasBody = true
@@ -39,6 +42,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
 
         if (!hasBody) {
             tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
+            parenExpression.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
             return
         }
 
@@ -55,9 +59,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             }
 
             if (atToken(PyTokenTypes.LBRACE)) {
-                nextToken()
-                parseExpression()
-                checkMatches(PyTokenTypes.RBRACE, "Expected closing brace")
+                parseBraceContents()
                 continue
             }
 
@@ -83,6 +85,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
         checkMatches(PyTokenTypes.GT, "Expected tag close")
         subOrClosingTag?.done(PyxyElementTypes.TAG)
         tagExpression.done(PyxyElementTypes.TAG_EXPRESSION)
+        parenExpression.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
     }
 
     private fun parseTagContents(isClosing: Boolean = false) {
@@ -126,9 +129,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
                 if (parseStringLiteralExpression()) {
                     // Success
                 } else if (atToken(PyTokenTypes.LBRACE)) {
-                    nextToken()
-                    parseExpression()
-                    checkMatches(PyTokenTypes.RBRACE, "Expected closing brace")
+                    parseBraceContents()
                 } else {
                     myBuilder.error("Expected string literal or {expression}")
                 }
@@ -152,5 +153,78 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             return true
         }
         return false
+    }
+
+    // Modified from ExpressionParsing.parseParenthesizedExpression
+    private fun parseBraceContents() {
+        val expr = myBuilder.mark()
+        myBuilder.advanceLexer()
+        if (myBuilder.tokenType === PyTokenTypes.RBRACE) {
+            myBuilder.advanceLexer()
+            expr.done(PyElementTypes.TUPLE_EXPRESSION)
+        } else {
+            parseYieldOrTupleExpression(false)
+            if (atForOrAsyncFor()) {
+                parseComprehension(expr, PyTokenTypes.RBRACE, PyElementTypes.GENERATOR_EXPRESSION)
+            } else {
+                val err = myBuilder.mark()
+                var empty = true
+                while (!myBuilder.eof() && myBuilder.tokenType !== PyTokenTypes.RBRACE && myBuilder.tokenType !== PyTokenTypes.LINE_BREAK && myBuilder.tokenType !== PyTokenTypes.STATEMENT_BREAK && myBuilder.tokenType !== PyTokenTypes.FSTRING_END) {
+                    myBuilder.advanceLexer()
+                    empty = false
+                }
+                if (!empty) {
+                    err.error(PyParsingBundle.message("unexpected.expression.syntax"))
+                } else {
+                    err.drop()
+                }
+                checkMatches(PyTokenTypes.RBRACE, PyParsingBundle.message("PARSE.expected.rbrace"))
+                expr.done(PyElementTypes.PARENTHESIZED_EXPRESSION)
+            }
+        }
+    }
+
+    // Copied from the private ExpressionParsing.atForOrAsyncFor
+    private fun atForOrAsyncFor(): Boolean {
+        if (atToken(PyTokenTypes.FOR_KEYWORD)) {
+            return true
+        } else if (matchToken(PyTokenTypes.ASYNC_KEYWORD)) {
+            if (atToken(PyTokenTypes.FOR_KEYWORD)) {
+                return true
+            } else {
+                myBuilder.error(PyParsingBundle.message("for.expected"))
+                return false
+            }
+        }
+        return false
+    }
+
+    // Copied from the private ExpressionParsing.parseComprehension
+    private fun parseComprehension(
+        expr: SyntaxTreeBuilder.Marker,
+        endToken: IElementType?,
+        exprType: IElementType
+    ) {
+        assertCurrentToken(PyTokenTypes.FOR_KEYWORD)
+        while (true) {
+            myBuilder.advanceLexer()
+            parseStarTargets()
+            parseComprehensionRange(exprType === PyElementTypes.GENERATOR_EXPRESSION)
+            while (myBuilder.tokenType === PyTokenTypes.IF_KEYWORD) {
+                myBuilder.advanceLexer()
+                if (!parseOldExpression()) {
+                    myBuilder.error(PyParsingBundle.message("PARSE.expected.expression"))
+                }
+            }
+            if (atForOrAsyncFor()) {
+                continue
+            }
+            if (endToken == null || matchToken(endToken)) {
+                break
+            }
+            myBuilder.error(PyParsingBundle.message("PARSE.expected.for.or.bracket"))
+            break
+        }
+        expr.done(exprType)
     }
 }
