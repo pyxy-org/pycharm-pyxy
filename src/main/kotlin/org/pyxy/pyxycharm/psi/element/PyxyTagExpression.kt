@@ -22,7 +22,6 @@ class PyxyTagExpression(node: ASTNode) : PyCallExpressionImpl(node) {
     }
 
     override fun toString(): String {
-        val callee = callee
-        return "${this::class.simpleName}: ${if (callee == null) "null" else callee.name}"
+        return "${this::class.simpleName}: ${callee?.name}"
     }
 }

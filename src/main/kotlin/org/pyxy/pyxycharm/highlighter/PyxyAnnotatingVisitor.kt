@@ -17,7 +17,12 @@ class PyxyAnnotatingVisitor : PyAnnotator() {
 
     fun visitPyxyAttribute(node: PyxyKeywordArgument) {
         super.visitPyKeywordArgument(node)
-        addHighlightingAnnotation(node, PyxyHighlighterColors.PYXY_ATTRIBUTE_VALUE, HighlightSeverity.TEXT_ATTRIBUTES)
+        for (valueNode in node.getHighlightedValueNodes()) {
+            addHighlightingAnnotation(valueNode, PyxyHighlighterColors.PYXY_ATTRIBUTE_VALUE, HighlightSeverity.TEXT_ATTRIBUTES)
+        }
+        for (braceNode in node.getHighlightedBraceNodes()) {
+            addHighlightingAnnotation(braceNode, PyxyHighlighterColors.PYXY_TAG_CDATA, HighlightSeverity.TEXT_ATTRIBUTES)
+        }
     }
 
     fun visitPyxyAttributeName(node: PyxyKeywordArgumentName) {
