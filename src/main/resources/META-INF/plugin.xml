@@ -14,11 +14,8 @@
             language="Python (pyxy)"
             implementationClass="org.pyxy.pyxycharm.parser.PyxyParserDefinition"/>
 
-    <indexedRootsProvider implementation="org.pyxy.pyxycharm.builtins.PyxyBuiltins"/>
-    <completion.contributor language="Python"
-                            implementationClass="org.pyxy.pyxycharm.builtins.PyxyCompletionContributor"/>
-
     <vfs.asyncListener implementation="org.pyxy.pyxycharm.PyxyFileListener"/>
+    <postStartupActivity implementation="org.pyxy.pyxycharm.MyPostStartupActivity" />
   </extensions>
 
   <extensions defaultExtensionNs="Pythonid">
