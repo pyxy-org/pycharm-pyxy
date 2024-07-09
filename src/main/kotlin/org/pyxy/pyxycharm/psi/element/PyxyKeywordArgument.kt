@@ -19,7 +19,7 @@ class PyxyKeywordArgument(node: ASTNode) : PyKeywordArgumentImpl(node) {
 
     fun getHighlightedValueNodes(): List<PsiElement> {
         val result = ArrayList<PsiElement>()
-        result.add(findChildByType(PyTokenTypes.EQ)!!)
+        findChildByType<PsiElement>(PyTokenTypes.EQ)?.let { result.add(it) }
 
         val stringChild = findChildByFilter(stringElements)
         if (stringChild != null) {

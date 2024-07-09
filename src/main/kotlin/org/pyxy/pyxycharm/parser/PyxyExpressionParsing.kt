@@ -89,12 +89,7 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
     }
 
     private fun parseTagContents(isClosing: Boolean = false) {
-        if (!atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
-            myBuilder.error("Expected tag name")
-        }
-
-        parseTagName()
-
+        if (!parseTagName()) return
         if (isClosing) return
 
         val argListMarker = myBuilder.mark()
@@ -104,11 +99,12 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
             val attrName = myBuilder.mark()
             var emptyName = true
             while (!myBuilder.eof() && atAnyOfTokens(PyxyTokenTypes.XML_NAME_TOKENS)) {
+                emptyName = false
                 if (PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))) {
+                    nextToken()
                     break
                 }
                 nextToken()
-                emptyName = false
             }
 
             if (emptyName) {
@@ -143,16 +139,55 @@ class PyxyExpressionParsing(context: PyxyParserContext) : ExpressionParsing(cont
     private fun parseTagName(): Boolean {
         if (atToken(PyTokenTypes.IDENTIFIER)) {
             var refExpr = myBuilder.mark()
-            nextToken()
+            parseTagNamePart(refExpr)
             refExpr.done(PyxyElementTypes.TAG_NAME)
             while (matchToken(PyTokenTypes.DOT)) {
                 refExpr = refExpr.precede()
-                checkMatches(PyTokenTypes.IDENTIFIER, PyParsingBundle.message("PARSE.expected.name"))
+                parseTagNamePart(refExpr)
                 refExpr.done(PyxyElementTypes.TAG_NAME)
             }
             return true
         }
         return false
+    }
+
+    private val TAG_NAME_JOINERS = TokenSet.create(PyTokenTypes.MINUS, PyTokenTypes.COLON)
+
+    private fun parseTagNamePart(marker: SyntaxTreeBuilder.Marker): Boolean {
+        // If there's only one token that makes up the name...
+        if (whitespaceBeforeNextToken()) {
+            return checkTagNameIdentifier(marker)
+        }
+
+        // In this path, there are multiple tokens that make up the name
+        if (!checkTagNameIdentifier(marker)) return false
+
+        while (TAG_NAME_JOINERS.contains(myBuilder.tokenType)) {
+            if (whitespaceBeforeNextToken()) {
+                // Can't end on a joiner
+                marker.error("Incomplete tag name")
+                return false
+            }
+            nextToken()
+
+            val isLastIdentifier = whitespaceBeforeNextToken()
+            if (!checkTagNameIdentifier(marker)) return false
+            if (isLastIdentifier) break
+        }
+        return true
+    }
+
+    private fun checkTagNameIdentifier(marker: SyntaxTreeBuilder.Marker): Boolean {
+        if (!atToken(PyTokenTypes.IDENTIFIER)) {
+            marker.error("Bad tag name")
+            return false
+        }
+        nextToken()
+        return true
+    }
+
+    private fun whitespaceBeforeNextToken(): Boolean {
+        return PyTokenTypes.WHITESPACE_OR_LINEBREAK.contains(myBuilder.rawLookup(1))
     }
 
     // Modified from ExpressionParsing.parseParenthesizedExpression
