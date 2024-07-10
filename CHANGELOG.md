@@ -3,5 +3,8 @@
 
 # PyxyCharm Plugin Changelog
 
+## [0.1.1]
+Fix icon
+
 ## [0.1.0]
 Initial Release
