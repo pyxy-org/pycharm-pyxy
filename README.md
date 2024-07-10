@@ -1,7 +1,7 @@
 # PyxyCharm
 
 <!-- Plugin description -->
-PyCharm support for pyxy: HTML in Python.
+Adds support for `.pyxy` files, which allow writing HTML in Python.
 See https://github.com/pyxy-org/pyxy
 <!-- Plugin description end -->
 

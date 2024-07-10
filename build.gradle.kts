@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "org.pyxy"
-version = "0.1.1"
+version = properties("pluginVersion")
 
 repositories {
   mavenCentral()

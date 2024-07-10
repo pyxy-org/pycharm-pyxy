@@ -1,7 +1,10 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 <!-- See https://github.com/JetBrains/gradle-changelog-plugin -->
 
-# PyxyCharm Plugin Changelog
+# Pyxy Plugin Changelog
+
+## [0.1.2]
+Fix name
 
 ## [0.1.1]
 Fix icon
