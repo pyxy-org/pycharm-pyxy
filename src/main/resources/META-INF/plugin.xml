@@ -24,4 +24,9 @@
     <dialectsTokenSetContributor
             implementation="org.pyxy.pyxycharm.PyxyDialectTokenContributor" />
   </extensions>
+
+  <applicationListeners>
+    <listener class="org.pyxy.pyxycharm.PyxyUnloadListener"
+              topic="com.intellij.ide.plugins.DynamicPluginListener" />
+  </applicationListeners>
 </idea-plugin>

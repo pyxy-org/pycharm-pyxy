@@ -3,6 +3,9 @@
 
 # Pyxy Plugin Changelog
 
+## [0.1.4]
+When using the plugin, files ending with `.pyxy` are now preferred over files ending in `.py`
+
 ## [0.1.3]
 Add icon
 
